@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kanban Board</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .board {
+      display: flex;
+      gap: 10px; /* Reduced gap for closer columns */
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .column {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease-in-out;
+      overflow: hidden;
+    }
+
+    .column:hover {
+      transform: translateY(-5px);
+    }
+
+    .column h3 {
+      text-align: center;
+      color: #34495e;
+      font-size: 20px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .card {
+      background: #ffffff;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      cursor: grab;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+      border-left: 5px solid transparent;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+      transform: scale(1.02);
+    }
+
+    .card.dragging {
+      opacity: 0.6;
+    }
+
+    .labels {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .label {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .label.marketing { background-color: #ff5722; }
+    .label.legal { background-color: #2ecc71; }
+    .label.design { background-color: #3498db; }
+    .label.external { background-color: #9b59b6; }
+    .label.sales { background-color: #f39c12; }
+    .label.production { background-color: #8e44ad; }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #7f8c8d;
+      margin-top: 10px;
+    }
+
+    .card-footer span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .add-card {
+      background: none;
+      border: none;
+      color: #007bff;
+      font-weight: bold;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-align: left;
+      margin-top: auto;
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+
+    .add-card:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+
+    /* Custom Scrollbar */
+    .column {
+      overflow-y: auto;
+      max-height: 450px;
+    }
+
+    .column::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .column::-webkit-scrollbar-thumb {
+      background-color: #b0bec5;
+      border-radius: 10px;
+    }
+
+    .column::-webkit-scrollbar-track {
+      background-color: #f1f1f1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Kanban Board</h1>
+
+  <div class="board">
+    <div class="column" data-status="upcoming">
+      <h3>Upcoming</h3>
+      <div class="card" draggable="true">
+        <div class="labels">
+          <div class="label marketing">Marketing</div>
+        </div>
+        Plan marketing campaign
+        <div class="card-footer">
+          <span>📅 Sep 29</span>
+          <span>💬 5 Comments</span>
+        </div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="labels">
+          <div class="label legal">Legal</div>
+        </div>
+        Approve legal agreement
+      </div>
+      <div class="card" draggable="true">
+        <div class="labels">
+          <div class="label marketing">Marketing</div>
+        </div>
+        Schedule recurring client meeting
+        <div class="card-footer">
+          <span>📅 Sep 15</span>
+          <span>📎 1 Attachment</span>
+        </div>
+      </div>
+      <button class="add-card">+ Add another card</button>
+    </div>
+
+    <div class="column" data-status="in-progress">
+      <h3>In Progress</h3>
+      <div class="card" draggable="true">
+        <div class="labels">
+          <div class="label external">External</div>
+          <div class="label design">Design</div>
+        </div>
+        Collect design assets
+        <div class="card-footer">
+          <span>📅 Mar 23</span>
+          <span>✅ 1/3 Tasks Completed</span>
+        </div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="labels">
+          <div class="label production">Production</div>
+          <div class="label design">Design</div>
+        </div>
+        Create T-shirt options for launch day
+        <div class="card-footer">
+          <span>📅 Aug 26</span>
+          <span>✅ 0/4 Tasks Completed</span>
+        </div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="labels">
+          <div class="label sales">Sales</div>
+        </div>
+        Update online shop
+        <div class="card-footer">
+          <span>📅 Sep 15</span>
+        </div>
+      </div>
+      <button class="add-card">+ Add another card</button>
+    </div>
+
+    <div class="column" data-status="done">
+      <h3>Done</h3>
+      <div class="card" draggable="true">
+        <div class="labels">
+          <div class="label legal">Legal</div>
+        </div>
+        Review legal agreement
+        <div class="card-footer">
+          <span>📅 Jun 30</span>
+        </div>
+      </div>
+      <div class="card" draggable="true">
+        <div class="labels">
+          <div class="label external">External</div>
+          <div class="label marketing">Marketing</div>
+        </div>
+        Customer survey
+        <div class="card-footer">
+          <span>📅 Jun 3</span>
+          <span>✅ 5/5 Tasks Completed</span>
+        </div>
+      </div>
+      <button class="add-card">+ Add another card</button>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const columns = document.querySelectorAll('.column');
+
+    cards.forEach(card => {
+      card.addEventListener('dragstart', () => card.classList.add('dragging'));
+      card.addEventListener('dragend', () => card.classList.remove('dragging'));
+    });
+
+    columns.forEach(column => {
+      column.addEventListener('dragover', e => {
+        e.preventDefault();
+        const dragging = document.querySelector('.dragging');
+        const afterElement = getDragAfterElement(column, e.clientY);
+        if (afterElement == null) {
+          column.insertBefore(dragging, column.querySelector('.add-card'));
+        } else {
+          column.insertBefore(dragging, afterElement);
+        }
+      });
+    });
+
+    function getDragAfterElement(container, y) {
+      const draggableElements = [...container.querySelectorAll('.card:not(.dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    document.querySelectorAll('.add-card').forEach(button => {
+      button.addEventListener('click', () => {
+        const column = button.parentElement;
+        const newCard = document.createElement('div');
+        newCard.className = 'card';
+        newCard.setAttribute('draggable', true);
+        newCard.textContent = 'New Task';
+        column.insertBefore(newCard, button);
+
+        newCard.addEventListener('dragstart', () => newCard.classList.add('dragging'));
+        newCard.addEventListener('dragend', () => newCard.classList.remove('dragging'));
+      });
+    });
+  </script>
+
+</body>
+</html>
